@@ -1,3 +1,4 @@
+[Live Demo](https://breathinganimation.netlify.app/) :point_left:
 # Vibe Breathing Guide
 
 A simple, stunning, and responsive web application designed to guide users through various breathing exercises. It features a unique ethereal/glassmorphic visual design with customizable themes and patterns, aiming to create a calming and focused user experience.
