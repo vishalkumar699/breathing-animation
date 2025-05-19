@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethereal Breathing Guide</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<main class="app-container">
+  <div class="timer-display">00:00</div>
+
+  <div class="breathing-viz">
+    <div class="breathing-shape breathing-shape-primary"></div>
+    <div class="breathing-shape breathing-shape-secondary"></div>
+    <div class="message">Start Your Breath</div>
+  </div>
+
+  <div class="controls">
+    <select id="vibeSelect" class="control-select">
+      <option value="ethereal">Vibe: Ethereal</option>
+      <option value="calm">Vibe: Calm (Dark)</option>
+      <option value="focused">Vibe: Focused (Dark)</option>
+      <option value="energetic">Vibe: Energetic (Dark)</option>
+    </select>
+
+    <select id="patternSelect" class="control-select">
+      <option value="equal">Pattern: Equal Breathing</option>
+      <option value="box">Pattern: Box Breathing</option>
+    </select>
+
+    <button id="startButton" class="control-button">Start</button>
+    <button id="stopButton" class="control-button" disabled>Stop</button>
+  </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

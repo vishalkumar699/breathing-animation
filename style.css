@@ -1,0 +1,320 @@
+:root {
+    /* Default Vibe (Ethereal - Light Theme) */
+    --primary-color: rgba(173, 216, 230, 0.6); /* Light Blue (transparent) */
+    --secondary-color: rgba(144, 238, 144, 0.6); /* Light Green (transparent) */
+    --accent-color: rgba(255, 250, 205, 0.8); /* Light Yellow (more opaque for text/glow) */
+    --background-color-light: #f0f4f8; /* Very light grey-blue */
+    --background-gradient-start: #e0e9f0; /* Light gradient start */
+    --background-gradient-end: #c0d0e0; /* Light gradient end */
+    --text-color-dark: #333a47; /* Dark text for light background */
+    --text-color-accent: var(--text-color-dark); /* Accent text color */
+
+
+    /* Previous Dark Vibe Palettes (renamed keys to match CSS variables) */
+    --calm-primary-color: #4a4e69;
+    --calm-secondary-color: #918eab;
+    --calm-accent-color: #b5e8d5;
+    --calm-background-color-dark: #2c3040;
+    --calm-background-gradient-start: #232633;
+    --calm-background-gradient-end: #3a3f54;
+    --calm-text-color-light: #e0e0e0;
+    --calm-text-color-dark: #e0e0e0;
+    --calm-text-color-accent: var(--calm-accent-color);
+
+    --focused-primary-color: #536fa1;
+    --focused-secondary-color: #81a2d0;
+    --focused-accent-color: #a2d2ff;
+    --focused-background-color-dark: #3b4252;
+    --focused-background-gradient-start: #303640;
+    --focused-background-gradient-end: #4c566a;
+    --focused-text-color-light: #e5e9f0;
+    --text-color-dark: #e5e9f0;
+    --focused-text-color-accent: var(--focused-accent-color);
+
+    --energetic-primary-color: #f08a5d;
+    --energetic-secondary-color: #f3b2a1;
+    --energetic-accent-color: #ffdd95;
+    --energetic-background-color-dark: #4a3a31;
+    --energetic-background-gradient-start: #403028;
+    --energetic-background-gradient-end: #5a4b40;
+    --energetic-text-color-light: #fff5e1;
+    --text-color-dark: #fff5e1;
+    --energetic-text-color-accent: var(--accent-color);
+
+
+    /* Button and Shadow Variables */
+    --button-bg-color: var(--secondary-color);
+    --button-text-color: var(--text-color-dark);
+    --button-hover-bg-color: var(--accent-color);
+    --button-shadow-color: rgba(0, 0, 0, 0.1);
+
+    /* Animation Duration Variable (controlled by JS) */
+    --animation-duration: 8s;
+
+    /* Animation Speed Multiplier (adjusted in JS) */
+    --animation-speed-multiplier: 1;
+
+    /* --- Responsive Variables --- */
+    --breathing-viz-size-desktop: 280px;
+    --breathing-viz-size-mobile: 65vw;
+    --app-container-width-desktop: 400px;
+    --app-container-padding-desktop: 40px;
+    --app-container-padding-mobile: 20px;
+
+    /* --- Adjusted Font Size Variables --- */
+    --font-size-large: 1.8em; /* Reduced from 2.2em */
+    --font-size-medium: 0.9em; /* Reduced from 1em */
+    --font-size-timer: 1.8em; /* Reduced from 2em */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--background-gradient-start) 0%, var(--background-gradient-end) 100%);
+    margin: 0;
+    overflow-x: hidden;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-color-dark);
+    line-height: 1.6;
+    transition: background 0.8s ease;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--app-container-padding-desktop);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 30px var(--button-shadow-color);
+    max-width: 95%;
+    width: var(--app-container-width-desktop);
+    text-align: center;
+    backdrop-filter: blur(15px);
+    transition: background-color 0.8s ease, box-shadow 0.8s ease, border-color 0.8s ease;
+    box-sizing: border-box;
+}
+
+.timer-display {
+    font-size: var(--font-size-timer);
+    font-weight: 300;
+    color: var(--text-color-dark);
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.breathing-viz {
+    width: var(--breathing-viz-size-desktop);
+    height: var(--breathing-viz-size-desktop);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.breathing-shape {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    opacity: 0.8;
+    transition: opacity 0.5s ease-in-out, transform 0ms;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
+}
+
+.breathing-shape-primary {
+    background: radial-gradient(circle at center, var(--primary-color) 0%, transparent 70%);
+    transition: transform 0ms, box-shadow 0.3s ease;
+    box-shadow: 0 0 40px var(--accent-color);
+}
+
+.breathing-shape-secondary {
+    background-color: var(--secondary-color);
+    transition: transform 0ms, opacity 0.5s ease-in-out, box-shadow 0.3s ease;
+    box-shadow: 0 0 30px var(--secondary-color);
+}
+
+.message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: var(--font-size-large);
+    font-weight: 700;
+    color: var(--text-color-accent);
+    opacity: 1;
+    transition: opacity 0.6s ease-in-out;
+    pointer-events: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    text-wrap: balance;
+    word-break: break-word;
+    /* --- Add padding to create space around the text --- */
+    padding: 0 20px; /* Add 20px padding on the left and right */
+}
+
+.message.hidden {
+    opacity: 0;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+}
+
+.control-button {
+    padding: 12px 25px;
+    font-size: var(--font-size-medium);
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    box-shadow: 0 4px 10px var(--button-shadow-color);
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-sizing: border-box;
+}
+
+.control-button:hover:not(:disabled) {
+    background-color: var(--button-hover-bg-color);
+    box-shadow: 0 6px 15px var(--button-shadow-color);
+}
+
+.control-button:active:not(:disabled) {
+    transform: scale(0.95);
+    box-shadow: 0 3px 8px var(--button-shadow-color);
+}
+
+.control-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.control-select {
+    padding: 12px 20px;
+    font-size: var(--font-size-medium);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color-dark);
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.362%22%20height%3D%22292.362%22%3E%3Cpath%20fill%3D%22%23333a47%22%20d%3D%22M287.9.743a14.993%2014.993%200%200%200-21.196%20L146.18%20140.016%2025.656%2019.546A14.995%2014.995%200%200%200%204.46%2040.742l120.52%20120.516a14.993%2014.993%200%200%200%2021.196%200L287.9%2040.742c5.858-5.858%205.858-15.356%200-21.213z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px auto;
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.control-select option {
+    background-color: var(--background-color-light);
+    color: var(--text-color-dark);
+}
+
+
+/* Animation Keyframes (controlled by JS) */
+@keyframes breathe-scale {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.6); }
+    100% { transform: scale(1); }
+}
+
+@keyframes breathe-scale-secondary {
+    0% { transform: scale(0.9); opacity: 0.3; }
+    50% { transform: scale(1.7); opacity: 0.6; }
+    100% { transform: scale(0.9); opacity: 0.3; }
+}
+
+@keyframes subtle-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Styles for screens smaller than 600px (adjust breakpoint as needed) */
+@media (max-width: 600px) {
+    :root {
+        --breathing-viz-size-desktop: var(--breathing-viz-size-mobile);
+        --app-container-padding-desktop: var(--app-container-padding-mobile);
+
+        /* --- Adjusted Font Size Variables for Mobile --- */
+        --font-size-large: 1.5em;
+        --font-size-medium: 0.8em;
+        --font-size-timer: 1.5em;
+    }
+
+    .app-container {
+        max-width: 95%;
+        width: 95%;
+        padding: var(--app-container-padding-desktop);
+    }
+
+    .breathing-viz {
+        margin-bottom: 30px;
+        width: var(--breathing-viz-size-desktop);
+        height: var(--breathing-viz-size-desktop);
+        max-width: 90%;
+        max-height: 90vw;
+    }
+
+    .message {
+        white-space: normal;
+        font-size: var(--font-size-large);
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
+        text-wrap: balance;
+        word-break: break-word;
+        /* --- Adjust padding for smaller screens if needed --- */
+        padding: 0 10px; /* Slightly less padding on mobile */
+    }
+
+    .control-button, .control-select {
+        max-width: 250px;
+        width: 80%;
+    }
+}
+
+/* Further adjustments for very small screens (optional) */
+/* @media (max-width: 350px) {
+    :root {
+        --font-size-large: 1.3em;
+        --font-size-medium: 0.7em;
+        --font-size-timer: 1.3em;
+    }
+} */
